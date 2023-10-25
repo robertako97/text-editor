@@ -18,7 +18,12 @@ module.exports = () => {
       new HtmlWebpackPlugin({
         template: './index.html'
       }),
-      new GenerateSW(),  // Use GenerateSW here
+      new GenerateSW({
+        swDest: 'sw.js',
+        skipWaiting: false,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
+      }),
       new WebpackPwaManifest({
         name: 'TODOs',
         short_name: 'TODOs',
@@ -26,7 +31,7 @@ module.exports = () => {
         background_color: '#7eb4e2',
         theme_color: '#7eb4e2',
         start_url: './',
-        publicPath: './',
+        publicPath: '/',  // Absolute path
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
