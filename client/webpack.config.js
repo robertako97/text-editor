@@ -31,12 +31,14 @@ module.exports = () => {
         background_color: '#7eb4e2',
         theme_color: '#7eb4e2',
         start_url: './',
-        publicPath: '/',  // Absolute path
+        publicPath: '/',  
+        fingerprints: false, //to delete hashes in manifest.json
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
+            filename: 'icon_[size].[ext]'
           },
         ],
       }),
@@ -44,6 +46,7 @@ module.exports = () => {
 
     module: {
       rules: [
+        
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],
@@ -57,7 +60,7 @@ module.exports = () => {
               presets: ['@babel/preset-env'],
             }
           }
-        }
+        },
       ],
     },
   };
