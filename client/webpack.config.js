@@ -25,14 +25,14 @@ module.exports = () => {
         cleanupOutdatedCaches: true,
       }),
       new WebpackPwaManifest({
-        name: 'TODOs',
-        short_name: 'TODOs',
-        description: 'Keep track of important tasks!',
+        name: 'Just another text editor',
+        short_name: 'jate',
+        description: 'Keep track of your code!',
         background_color: '#7eb4e2',
         theme_color: '#7eb4e2',
         start_url: './',
-        publicPath: '/',  
-        fingerprints: false, //to delete hashes in manifest.json
+        publicPath: '/',
+        fingerprints: false, // Disable hashes in manifest.json
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
@@ -46,7 +46,6 @@ module.exports = () => {
 
     module: {
       rules: [
-        
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],

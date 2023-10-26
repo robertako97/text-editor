@@ -1,41 +1,76 @@
 import { openDB } from 'idb';
 
-const initdb = async () =>
-  openDB('jate', 1, {
+// Initialize the database and object store with an index.
+const initdb = async () => {
+  return openDB('jate', 1, {
     upgrade(db) {
-      if (db.objectStoreNames.contains('jate')) {
-        console.log('jate database already exists');
-        return;
+      if (!db.objectStoreNames.contains('jate')) {
+        const store = db.createObjectStore('jate', { keyPath: 'id', autoIncrement: true });
+        store.createIndex('code', 'code', { unique: false });
+        console.log('jate database created');
       }
-      db.createObjectStore('jate', { keyPath: 'id', autoIncrement: true });
-      console.log('jate database created');
     },
   });
-
-/**
- * Adds content to the database.
- * @param {Object} content - The content to be added to the database.
- * @returns {Promise<void>}
- */
-export const putDb = async (content) => {
-  const db = await initdb();
-  const tx = db.transaction('jate', 'readwrite');
-  const store = tx.objectStore('jate');
-  await store.add(content);
-  await tx.done;
-  console.log('Content added to jate database');
 };
 
-/**
- * Retrieves all the content from the database.
- * @returns {Promise<Array>} - An array containing all the content from the database.
- */
+// Save code content to the database.
+export const postDb = async (content) => {
+  const jateDb = await initdb();
+  const tx = jateDb.transaction('jate', 'readwrite');
+  const store = tx.objectStore('jate');
+  await store.add({ code: content });
+};
+
+// Get all code lines from the database.
 export const getDb = async () => {
-  const db = await initdb();
-  const tx = db.transaction('jate', 'readonly');
+  const jateDb = await initdb();
+  const tx = jateDb.transaction('jate', 'readonly');
   const store = tx.objectStore('jate');
-  const allContent = await store.getAll();
-  return allContent;
+  const request = store.getAll();
+  return request;
 };
 
+
+export const getAllDb = async () => {
+  console.log('GET all code lines from the database');
+  const jateDb = await initdb();
+  const tx = jateDb.transaction('jate', 'readonly');
+  const store = tx.objectStore('jate');
+  const request = store.getAll();
+  const result = await request;
+  console.log('result.value', result);
+  return result;
+};
+
+export const getOneDb = async (id) => {
+  console.log('GET from the database');
+  const jateDb = await initdb();
+  const tx = jateDb.transaction('jate', 'readonly');
+  const store = tx.objectStore('jate');
+  const request = store.get(id);
+  const result = await request;
+  console.log('result.value', result);
+  return result;
+};
+
+export const deleteDb = async (id) => {
+  console.log('DELETE from the database', id);
+  const jateDb = await initdb();
+  const tx = jateDb.transaction('jate', 'readwrite');
+  const store = tx.objectStore('jate');
+  const request = store.delete(id);
+  const result = await request;
+  console.log('result.value', result);
+  return result;
+};
+
+export const putDb = async (id, content) => {
+  console.log('PUT to the database');
+  const jateDb = await initdb();
+  const tx = jateDb.transaction('jate', 'readwrite');
+  const store = tx.objectStore('jate');
+  const request = store.put({ id: id, code: content });
+  const result = await request;
+  console.log('Code saved to the jate database', result);
+};
 initdb();

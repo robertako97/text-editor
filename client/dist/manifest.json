@@ -31,12 +31,12 @@
       "type": "image/png"
     }
   ],
-  "name": "TODOs",
-  "short_name": "TODOs",
+  "name": "Just another text editor",
+  "short_name": "jate",
   "orientation": "portrait",
   "display": "standalone",
   "start_url": "./",
-  "description": "Keep track of important tasks!",
+  "description": "Keep track of your code!",
   "background_color": "#7eb4e2",
   "theme_color": "#7eb4e2"
 }
