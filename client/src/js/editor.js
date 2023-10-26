@@ -42,10 +42,10 @@ export default class Editor {
 
       if (content === '') {
         // If the editor content is empty, delete the entry in IndexedDB
-        deleteDb('unique_id'); // Replace 'unique_id' with an appropriate ID
+        deleteDb(content);
       } else {
-        // Otherwise, update content in IndexedDB using a unique ID
-        putDb('unique_id', content); // Replace 'unique_id' with an appropriate ID
+        // Otherwise, update content in IndexedDB using the code as the identifier
+        putDb(content, content);
       }
     });
   }
